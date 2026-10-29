@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practico Interactivo de Prueba de Hipotesis</title>
+    <!-- Tailwind CSS para diseño moderno y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white shadow-md py-6 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Prueba de Hipotesis: Analisis y Diagnostico</h1>
+            <p class="text-slate-400 mt-2 text-sm md:text-base">Lea atentamente cada enunciado, analice los datos y clasifique correctamente los parametros antes de resolver.</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+        
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-8 rounded-r-lg shadow-sm">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-amber-800 font-medium">
+                        Instrucciones: Seleccione para cada ejercicio el tipo de variable, la condicion del desvio, el tipo de cola y verifique su analisis. El nivel de significacion (alfa) esta indicado en el texto de cada ejercicio.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <form id="quiz-form" class="space-y-6">
+
+            <!-- EJERCICIO 1 -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 transition-all hover:shadow-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded-full text-xs">Ejercicio 1</span>
+                </div>
+                <p class="text-slate-700 text-sm md:text-base mb-4 leading-relaxed font-medium">
+                    Un fabricante de componentes electrónicos para automóviles afirma que al menos el 85 por ciento de las piezas producidas superan los estándares de durabilidad extrema. Con el propósito de auditar a su proveedor, una empresa automotriz toma una muestra de 150 piezas y detecta que 120 cumplen con dichos estándares. Utilizando un nivel de significación del 5 por ciento, plantee el sistema de hipótesis adecuado para comprobar si la afirmación del fabricante es exagerada.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Variable</label>
+                        <select name="ex1_tipo" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="proporcion">Proporcion</option>
+                            <option value="promedio">Promedio</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Condicion del Desvio</label>
+                        <select name="ex1_desvio" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="conocido">Desvio poblacional conocido</option>
+                            <option value="desconocido">Desvio desconocido / por muestra</option>
+                            <option value="no_aplica">No aplica (es proporcion)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Cola</label>
+                        <select name="ex1_cola" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="izquierda">Cola izquierda</option>
+                            <option value="derecha">Cola derecha</option>
+                            <option value="bilateral">Bilateral (dos colas)</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="feedback-1" class="mt-3 hidden text-sm font-medium"></div>
+            </div>
+
+            <!-- EJERCICIO 2 -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 transition-all hover:shadow-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded-full text-xs">Ejercicio 2</span>
+                </div>
+                <p class="text-slate-700 text-sm md:text-base mb-4 leading-relaxed font-medium">
+                    El departamento de control de calidad de una planta embotelladora supervisa el volumen de llenado de sus envases. Históricamente, el proceso se mantiene con un promedio de 1.5 litros y se comporta según una distribución normal con un desvío estándar perfectamente documentado de 0.025 litros. Para comprobar si la máquina se encuentra descalibrada, se selecciona una muestra de 36 botellas obteniendo un valor medio de 1.492 litros. Con un nivel de significación del 5 por ciento, plantee las hipótesis nula y alternativa.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Variable</label>
+                        <select name="ex2_tipo" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="proporcion">Proporcion</option>
+                            <option value="promedio">Promedio</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Condicion del Desvio</label>
+                        <select name="ex2_desvio" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="conocido">Desvio poblacional conocido</option>
+                            <option value="desconocido">Desvio desconocido / por muestra</option>
+                            <option value="no_aplica">No aplica (es proporcion)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Cola</label>
+                        <select name="ex2_cola" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="izquierda">Cola izquierda</option>
+                            <option value="derecha">Cola derecha</option>
+                            <option value="bilateral">Bilateral (dos colas)</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="feedback-2" class="mt-3 hidden text-sm font-medium"></div>
+            </div>
+
+            <!-- EJERCICIO 3 -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 transition-all hover:shadow-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded-full text-xs">Ejercicio 3</span>
+                </div>
+                <p class="text-slate-700 text-sm md:text-base mb-4 leading-relaxed font-medium">
+                    Un centro de investigación agronómica está probando un nuevo fertilizante orgánico para acelerar el crecimiento de la soja. Se sabe que, bajo las condiciones tradicionales de cultivo, la altura promedio histórica es de 15.0 cm. Para evaluar si el nuevo producto genera un incremento significativo en el rendimiento del crecimiento, se aplica el fertilizante en 15 parcelas experimentales, obteniendo a partir de ellas una altura media de 16.2 cm y un desvío de 1.8 cm (asumiendo normalidad en la población). Adoptando un nivel de significación del 1 por ciento, formule las hipótesis estadísticas.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Variable</label>
+                        <select name="ex3_tipo" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="proporcion">Proporcion</option>
+                            <option value="promedio">Promedio</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Condicion del Desvio</label>
+                        <select name="ex3_desvio" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="conocido">Desvio poblacional conocido</option>
+                            <option value="desconocido">Desvio desconocido / por muestra</option>
+                            <option value="no_aplica">No aplica (es proporcion)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Cola</label>
+                        <select name="ex3_cola" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="izquierda">Cola izquierda</option>
+                            <option value="derecha">Cola derecha</option>
+                            <option value="bilateral">Bilateral (dos colas)</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="feedback-3" class="mt-3 hidden text-sm font-medium"></div>
+            </div>
+
+            <!-- EJERCICIO 4 -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 transition-all hover:shadow-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded-full text-xs">Ejercicio 4</span>
+                </div>
+                <p class="text-slate-700 text-sm md:text-base mb-4 leading-relaxed font-medium">
+                    Un centro de atención telefónica de grandes cuentas asegura que como máximo el 12 por ciento de las llamadas experimentan tiempos de espera prolongados. Un auditor externo toma una muestra aleatoria de 250 llamadas y detecta que 38 superan dicho tiempo de espera. Utilizando un nivel de significación del 5 por ciento, plantee las hipótesis para comprobar si la proporción real de demoras excede el límite prometido.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Variable</label>
+                        <select name="ex4_tipo" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="proporcion">Proporcion</option>
+                            <option value="promedio">Promedio</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Condicion del Desvio</label>
+                        <select name="ex4_desvio" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="conocido">Desvio poblacional conocido</option>
+                            <option value="desconocido">Desvio desconocido / por muestra</option>
+                            <option value="no_aplica">No aplica (es proporcion)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Cola</label>
+                        <select name="ex4_cola" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="izquierda">Cola izquierda</option>
+                            <option value="derecha">Cola derecha</option>
+                            <option value="bilateral">Bilateral (dos colas)</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="feedback-4" class="mt-3 hidden text-sm font-medium"></div>
+            </div>
+
+            <!-- EJERCICIO 5 -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 transition-all hover:shadow-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded-full text-xs">Ejercicio 5</span>
+                </div>
+                <p class="text-slate-700 text-sm md:text-base mb-4 leading-relaxed font-medium">
+                    Una fábrica de baterías de litio comercializa unidades con una vida útil histórica media de 500 horas. Una asociación de consumidores sospecha que el rendimiento promedio ha disminuido. Para contrastarlo, analizan un lote de 16 baterías, obteniendo a partir de las mediciones un valor medio de 485 horas y un desvío de 20 horas. Con un nivel de significación del 2 por ciento, formule el contraste unilateral adecuado para verificar si la vida útil ha disminuido.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Variable</label>
+                        <select name="ex5_tipo" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="proporcion">Proporcion</option>
+                            <option value="promedio">Promedio</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Condicion del Desvio</label>
+                        <select name="ex5_desvio" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="conocido">Desvio poblacional conocido</option>
+                            <option value="desconocido">Desvio desconocido / por muestra</option>
+                            <option value="no_aplica">No aplica (es proporcion)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Cola</label>
+                        <select name="ex5_cola" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="izquierda">Cola izquierda</option>
+                            <option value="derecha">Cola derecha</option>
+                            <option value="bilateral">Bilateral (dos colas)</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="feedback-5" class="mt-3 hidden text-sm font-medium"></div>
+            </div>
+
+            <!-- EJERCICIO 6 -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 transition-all hover:shadow-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded-full text-xs">Ejercicio 6</span>
+                </div>
+                <p class="text-slate-700 text-sm md:text-base mb-4 leading-relaxed font-medium">
+                    Una máquina envasadora de harina opera con un promedio histórico de 1000 gramos. El manual técnico detalla que el proceso de dispersión de pesos responde a una distribución normal con un desvío estándar documentado por el fabricante de 12 gramos. Para verificar si un desajuste reciente ha incrementado el peso medio por bolsa, se toma una muestra de 30 unidades obteniendo un valor medio de 1004.5 gramos. Adoptando un nivel de significación del 1 por ciento, plantee las hipótesis correspondientes para evaluar si el peso medio aumentó.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Variable</label>
+                        <select name="ex6_tipo" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="proporcion">Proporcion</option>
+                            <option value="promedio">Promedio</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Condicion del Desvio</label>
+                        <select name="ex6_desvio" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="conocido">Desvio poblacional conocido</option>
+                            <option value="desconocido">Desvio desconocido / por muestra</option>
+                            <option value="no_aplica">No aplica (es proporcion)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Tipo de Cola</label>
+                        <select name="ex6_cola" class="w-full text-sm border-slate-300 rounded-md shadow-sm p-2 border bg-white focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="">Seleccione...</option>
+                            <option value="izquierda">Cola izquierda</option>
+                            <option value="derecha">Cola derecha</option>
+                            <option value="bilateral">Bilateral (dos colas)</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="feedback-6" class="mt-3 hidden text-sm font-medium"></div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4 pb-8">
+                <button type="button" onclick="verificarRespuestas()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-xl shadow-md transition-all text-center">
+                    Verificar Analisis
+                </button>
+                <button type="reset" onclick="limpiarFormulario()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 px-8 rounded-xl transition-all text-center">
+                    Reiniciar
+                </button>
+            </div>
+
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-4 text-center text-xs">
+        <p>Practico de Estadistica - Material de Apoyo Academico</p>
+    </footer>
+
+    <!-- Logica de Correccion -->
+    <script>
+        const respuestasCorrectas = {
+            ex1: { tipo: 'proporcion', desvio: 'no_aplica', cola: 'izquierda' },
+            ex2: { tipo: 'promedio', desvio: 'conocido', cola: 'bilateral' },
+            ex3: { tipo: 'promedio', desvio: 'desconocido', cola: 'derecha' },
+            ex4: { tipo: 'proporcion', desvio: 'no_aplica', cola: 'derecha' },
+            ex5: { tipo: 'promedio', desvio: 'desconocido', cola: 'izquierda' },
+            ex6: { tipo: 'promedio', desvio: 'conocido', cola: 'derecha' }
+        };
+
+        function verificarRespuestas() {
+            for (let i = 1; i <= 6; i++) {
+                const tipo = document.querySelector(`[name="ex${i}_tipo"]`).value;
+                const desvio = document.querySelector(`[name="ex${i}_desvio"]`).value;
+                const cola = document.querySelector(`[name="ex${i}_cola"]`).value;
+                const feedbackDiv = document.getElementById(`feedback-${i}`);
+
+                feedbackDiv.classList.remove('hidden');
+
+                if (!tipo || !desvio || !cola) {
+                    feedbackDiv.className = "mt-3 text-sm font-medium text-amber-600 bg-amber-50 p-2 rounded border border-amber-200";
+                    feedbackDiv.innerHTML = "Por favor complete todas las opciones de este ejercicio.";
+                    continue;
+                }
+
+                const correcto = respuestasCorrectas[`ex${i}`];
+                const esCorrecto = (tipo === correcto.tipo && desvio === correcto.desvio && cola === correcto.cola);
+
+                if (esCorrecto) {
+                    feedbackDiv.className = "mt-3 text-sm font-medium text-green-700 bg-green-50 p-2 rounded border border-green-200 flex items-center";
+                    feedbackDiv.innerHTML = "¡Excelente analisis! Todos los parametros identificados son correctos.";
+                } else {
+                    feedbackDiv.className = "mt-3 text-sm font-medium text-red-700 bg-red-50 p-2 rounded border border-red-200 flex items-center";
+                    feedbackDiv.innerHTML = "Hay un error en el analisis. Revise si la variable es proporcion o promedio, de donde sale el desvio y hacia donde apunta la alternativa.";
+                }
+            }
+        }
+
+        function limpiarFormulario() {
+            for (let i = 1; i <= 6; i++) {
+                const feedbackDiv = document.getElementById(`feedback-${i}`);
+                feedbackDiv.classList.add('hidden');
+                feedbackDiv.innerHTML = "";
+            }
+        }
+    </script>
+</body>
+</html>
